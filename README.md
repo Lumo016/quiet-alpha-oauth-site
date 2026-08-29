@@ -2,8 +2,8 @@
 
 Public, static OAuth homepage and privacy policy for the personal-use Quiet Alpha Collector.
 
-- Homepage: `https://quiet-alpha.paddletailor.com/`
-- Privacy policy: `https://quiet-alpha.paddletailor.com/privacy.html`
+- Homepage: `https://lumo016.github.io/quiet-alpha-oauth-site/`
+- Privacy policy: `https://lumo016.github.io/quiet-alpha-oauth-site/privacy.html`
 - Hosting: GitHub Pages
 - Tracking scripts: none
 
