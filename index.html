@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Quiet Alpha Collector is a private research-data utility that validates immutable daily batches and publishes them to an owner-selected Google Drive folder.">
+  <title>Quiet Alpha Collector</title>
+  <link rel="canonical" href="https://quiet-alpha.paddletailor.com/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b1720'/%3E%3Cpath d='M13 42 28 15h8L22 42zm21 0 10-19h7L41 42z' fill='%2399f6b4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="Quiet Alpha Collector home">
+      <span class="wordmark-mark" aria-hidden="true">QA</span>
+      <span>Quiet Alpha Collector</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a aria-current="page" href="/">Overview</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Private research infrastructure</p>
+        <h1 id="hero-title">A daily evidence batch,<br><em>sealed before it moves.</em></h1>
+        <p class="lede">Quiet Alpha Collector gathers public research-source items, validates an immutable set of JSON artifacts, and publishes the verified batch to a Google Drive folder selected by its owner.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#drive-access">How Drive access is used</a>
+          <a class="button button-secondary" href="/privacy.html">Read the privacy policy</a>
+        </div>
+      </div>
+
+      <aside class="ledger reveal reveal-late" aria-label="Collector integrity sequence">
+        <div class="ledger-head">
+          <span>DAILY_BATCH</span>
+          <span class="ready">READY</span>
+        </div>
+        <ol>
+          <li><span>01</span><strong>Collect</strong><small>Public source records</small></li>
+          <li><span>02</span><strong>Validate</strong><small>Schema, count, integrity</small></li>
+          <li><span>03</span><strong>Publish</strong><small>Owner-configured Drive folder</small></li>
+          <li><span>04</span><strong>Read back</strong><small>SHA-256 + byte count</small></li>
+          <li><span>05</span><strong>Point</strong><small>Latest pointer updates last</small></li>
+        </ol>
+        <div class="hash-line"><span>ARTIFACT_SET</span><code>sha256 / verified</code></div>
+      </aside>
+    </section>
+
+    <section class="facts" aria-label="Product boundaries">
+      <article>
+        <p class="fact-number">01</p>
+        <h2>Single owner</h2>
+        <p>This is a personal-use utility, not a public SaaS product. Access is authorized by the Google account that owns the destination folder.</p>
+      </article>
+      <article>
+        <p class="fact-number">02</p>
+        <h2>Folder-bound behavior</h2>
+        <p>Runtime operations are anchored to one configured Drive folder ID and the files created or referenced inside that batch tree.</p>
+      </article>
+      <article>
+        <p class="fact-number">03</p>
+        <h2>No trading</h2>
+        <p>The Collector prepares research inputs. It does not place orders, manage brokerage accounts, or provide financial advice.</p>
+      </article>
+    </section>
+
+    <section id="drive-access" class="access-section" aria-labelledby="access-title">
+      <div class="section-label">GOOGLE DRIVE ACCESS / 谷歌云端硬盘权限</div>
+      <div class="access-grid">
+        <div>
+          <h2 id="access-title">Why the full Drive scope is requested</h2>
+          <p class="cn-title" lang="zh-Hans">为什么申请完整 Drive 权限</p>
+        </div>
+        <div class="prose">
+          <p>The Collector runs unattended as a Cloud Run Job and writes into an existing, user-owned Drive folder. Because there is no interactive Google Picker during a scheduled run, it requests <code>https://www.googleapis.com/auth/drive</code>.</p>
+          <p class="disclosure"><strong>Important:</strong> this OAuth scope can technically view and manage all files in the authorizing account. The Collector's implemented behavior is narrower: it lists children under the configured root, creates dated batch folders, uploads or updates named JSON files, reads back those files for integrity checks, and restores the prior source-state file referenced by its own pointer. It does not delete Drive files.</p>
+          <p lang="zh-Hans">Collector 以无人值守的 Cloud Run Job 运行，并写入用户已有的 Drive 文件夹。完整 Drive scope 在权限层面可查看和管理授权账户中的全部文件；但程序实际操作被限定在配置的根目录、其批次子目录，以及自身 pointer 引用的文件。程序不会删除 Drive 文件。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="guardrails" aria-labelledby="guardrails-title">
+      <div class="section-label">OPERATING GUARDRAILS</div>
+      <h2 id="guardrails-title">The pointer moves only after the evidence survives a round trip.</h2>
+      <div class="guardrail-grid">
+        <article>
+          <h3>Immutable batches</h3>
+          <p>Each run receives its own dated folder and run identifier, preventing consumers from mixing old and new artifacts.</p>
+        </article>
+        <article>
+          <h3>Independent readback</h3>
+          <p>Every uploaded artifact is downloaded again. Its digest and byte count must match before publication succeeds.</p>
+        </article>
+        <article>
+          <h3>Secrets stay secret</h3>
+          <p>OAuth credentials are stored in Google Secret Manager and injected only into the runtime job. They are not published on this site or committed to source control.</p>
+        </article>
+        <article>
+          <h3>Revocable by the owner</h3>
+          <p>The owner can revoke the OAuth grant, delete the stored secrets, remove generated Drive files, or shut down the Cloud project at any time.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="policy-callout" aria-labelledby="policy-title">
+      <p class="eyebrow">TRANSPARENT BY DESIGN</p>
+      <h2 id="policy-title">No advertising. No sale of Google user data. No AI training on Drive data.</h2>
+      <p>Read the full policy for the exact data flow, retention rules, revocation options, and Limited Use commitment.</p>
+      <a class="text-link" href="/privacy.html">Open Privacy Policy <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <strong>Quiet Alpha Collector</strong>
+      <p>Personal research-data infrastructure.</p>
+    </div>
+    <div class="footer-links">
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="https://github.com/Lumo016/quiet-alpha-oauth-site/issues">Contact</a>
+    </div>
+    <p class="footer-note">Not investment advice. No brokerage execution.</p>
+  </footer>
+</body>
+</html>

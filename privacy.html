@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Privacy Policy for Quiet Alpha Collector, including its use of Google Drive data and OAuth credentials.">
+  <title>Privacy Policy — Quiet Alpha Collector</title>
+  <link rel="canonical" href="https://quiet-alpha.paddletailor.com/privacy.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b1720'/%3E%3Cpath d='M13 42 28 15h8L22 42zm21 0 10-19h7L41 42z' fill='%2399f6b4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="Quiet Alpha Collector home">
+      <span class="wordmark-mark" aria-hidden="true">QA</span>
+      <span>Quiet Alpha Collector</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="/">Overview</a>
+      <a aria-current="page" href="/privacy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <main id="main" class="policy-page">
+    <header class="policy-hero reveal">
+      <p class="eyebrow">POLICY / 隐私政策</p>
+      <h1>Privacy without<br><em>the fine-print fog.</em></h1>
+      <div class="policy-meta">
+        <span>Effective 29 August 2026</span>
+        <span>Personal-use application</span>
+      </div>
+      <p class="lede">This policy explains exactly how Quiet Alpha Collector accesses, uses, stores, and shares Google user data. The Chinese summaries support readability; the English provisions state the complete policy.</p>
+    </header>
+
+    <div class="policy-layout">
+      <aside class="policy-index" aria-label="Policy contents">
+        <p>CONTENTS</p>
+        <ol>
+          <li><a href="#scope">Scope</a></li>
+          <li><a href="#data">Data accessed</a></li>
+          <li><a href="#use">How data is used</a></li>
+          <li><a href="#storage">Storage and security</a></li>
+          <li><a href="#sharing">Sharing and Limited Use</a></li>
+          <li><a href="#retention">Retention and deletion</a></li>
+          <li><a href="#control">Your control</a></li>
+          <li><a href="#site">Public website</a></li>
+          <li><a href="#changes">Changes and contact</a></li>
+        </ol>
+      </aside>
+
+      <article class="policy-body">
+        <section id="scope">
+          <p class="section-number">01</p>
+          <h2>Scope and operator</h2>
+          <p>Quiet Alpha Collector (“the Collector”) is a private, single-owner research-data utility. It collects public-source research records, builds validated JSON artifacts, and publishes immutable daily batches to a Google Drive folder configured by the owner. It is not a public software service, advertising platform, broker, trading system, or financial adviser.</p>
+          <p class="cn-summary" lang="zh-Hans"><strong>中文摘要：</strong>Quiet Alpha Collector 是单一所有者使用的研究资料工具，用于把公开来源数据整理、校验后写入指定 Drive 文件夹；它不是公共 SaaS、广告平台、券商或自动交易系统。</p>
+        </section>
+
+        <section id="data">
+          <p class="section-number">02</p>
+          <h2>Google user data accessed</h2>
+          <p>The Collector requests the Google Drive OAuth scope <code>https://www.googleapis.com/auth/drive</code>. That scope is technically capable of viewing and managing all files in the authorizing account. The Collector's implemented operations are limited to:</p>
+          <ul>
+            <li>listing file and folder metadata under the configured root folder and its batch folders;</li>
+            <li>creating dated folders and run-specific folders beneath that root;</li>
+            <li>uploading five named JSON batch artifacts and updating two named JSON status/pointer files;</li>
+            <li>downloading those files to verify SHA-256 hashes and byte counts;</li>
+            <li>reading the prior pointer and the <code>source_state.json</code> file referenced by that pointer.</li>
+          </ul>
+          <p>The Collector does not request Google profile, Gmail, Calendar, Contacts, or advertising data. It does not delete Drive files. It does not intentionally inspect files outside the configured batch tree or files referenced by its own pointer.</p>
+          <p class="cn-summary" lang="zh-Hans"><strong>中文摘要：</strong>OAuth scope 本身可查看和管理全部 Drive 文件，但程序实际只在配置的根目录、批次目录和自身 pointer 指向的文件中列举、创建、上传、回读与更新 JSON；不会删除 Drive 文件，也不申请 Gmail、日历或联系人数据。</p>
+        </section>
+
+        <section id="use">
+          <p class="section-number">03</p>
+          <h2>How Google user data is used</h2>
+          <p>Drive data is used only to publish, verify, resume, and expose the current state of the owner's research batch. Uploaded files are downloaded immediately after publication to verify integrity. The latest pointer changes only after all required artifacts match their locally calculated hashes and byte counts.</p>
+          <p>Google user data is not used for advertising, audience profiling, credit decisions, automated trading, or training generalized artificial-intelligence models.</p>
+        </section>
+
+        <section id="storage">
+          <p class="section-number">04</p>
+          <h2>Storage and security</h2>
+          <ul>
+            <li>The OAuth client ID, client secret, and refresh token are stored in Google Secret Manager and provided only to the Cloud Run Job at execution time.</li>
+            <li>Short-lived access tokens are held in runtime memory and refreshed when required.</li>
+            <li>Batch artifacts remain in the owner's Google Drive. Temporary working files exist only in the job's ephemeral runtime environment.</li>
+            <li>Operational status and error information may be written to Cloud logs and the named run-status file. The application is designed not to log OAuth secrets or Drive file contents.</li>
+            <li>Published artifacts are re-downloaded and verified by SHA-256 digest and byte count before the latest pointer is updated.</li>
+          </ul>
+          <p>No security system is perfect. The operator limits access through project IAM, Secret Manager, a dedicated runtime identity, and a destination-folder identifier.</p>
+        </section>
+
+        <section id="sharing">
+          <p class="section-number">05</p>
+          <h2>Sharing, sale, and Limited Use</h2>
+          <p>The Collector does not sell Google user data. It does not share Google user data with advertisers, data brokers, or unrelated third parties. Google Cloud and Google Drive process data only as infrastructure providers necessary to operate the Collector. GitHub Pages hosts this public policy site but does not receive the owner's Drive content or OAuth credentials from the Collector.</p>
+          <blockquote>Quiet Alpha Collector's use of information received from Google APIs will adhere to Google API Services User Data Policy, including the Limited Use requirements.</blockquote>
+        </section>
+
+        <section id="retention">
+          <p class="section-number">06</p>
+          <h2>Retention and deletion</h2>
+          <p>Batch files and status files remain in Google Drive until the owner deletes them. OAuth credentials remain in Secret Manager until the owner disables or destroys their secret versions, revokes the Google authorization, or deletes the Cloud project. Cloud execution logs follow the retention settings of the owner's Google Cloud project.</p>
+          <p>The owner may remove Collector data by deleting the <code>Collector_Batches</code> contents in Drive. Revoking OAuth access stops future Drive API access but does not automatically delete files already created in Drive.</p>
+        </section>
+
+        <section id="control">
+          <p class="section-number">07</p>
+          <h2>Your choices and control</h2>
+          <p>The authorizing owner can stop or restrict the Collector at any time by pausing its scheduler, disabling the Cloud Run Job, revoking the app under Google Account third-party access settings, disabling the stored refresh token, or deleting generated Drive data.</p>
+          <p>Because this is a personal-use application, no other person should authorize it unless the operator has explicitly approved that access.</p>
+        </section>
+
+        <section id="site">
+          <p class="section-number">08</p>
+          <h2>This public website</h2>
+          <p>This static website contains no sign-in form, advertising pixel, analytics script, or application cookie. GitHub Pages, DNS providers, certificate authorities, and network intermediaries may process ordinary request metadata such as IP address, user agent, requested URL, and timestamp under their own policies. Visiting this site does not grant the Collector access to Google Drive.</p>
+        </section>
+
+        <section id="changes">
+          <p class="section-number">09</p>
+          <h2>Policy changes and contact</h2>
+          <p>This policy will be updated if the Collector's Google data practices materially change. The effective date at the top identifies the current version.</p>
+          <p>For a privacy question or deletion request, contact the operator through the public <a href="https://github.com/Lumo016/quiet-alpha-oauth-site/issues">Quiet Alpha OAuth Site issue tracker</a>. Do not include OAuth tokens, client secrets, Drive file contents, payment information, or other sensitive data in a public issue.</p>
+          <p class="cn-summary" lang="zh-Hans"><strong>中文摘要：</strong>如需停止访问，可暂停 Scheduler、停用 Job、在 Google 账户中撤销授权、删除 Secret Manager 中的凭据，并自行删除 Drive 批次。公开 issue 中请勿提交任何密钥或文件内容。</p>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <strong>Quiet Alpha Collector</strong>
+      <p>Personal research-data infrastructure.</p>
+    </div>
+    <div class="footer-links">
+      <a href="/">Overview</a>
+      <a href="https://github.com/Lumo016/quiet-alpha-oauth-site/issues">Contact</a>
+    </div>
+    <p class="footer-note">Effective 29 August 2026</p>
+  </footer>
+</body>
+</html>
